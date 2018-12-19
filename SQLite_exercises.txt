@@ -17,7 +17,7 @@ Q3. Find the titles of all movies that have no ratings.
 SELECT title
 FROM Movie
 EXCEPT
-SELECT DiSTINCT title
+SELECT DISTINCT title
 FROM Movie NATURAL JOIN Rating
 
 
@@ -52,6 +52,30 @@ NATURAL JOIN (SELECT R1.rID, R1.mID
 	WHERE R1.rID = temp2.rID And R1.mID = temp2.mID And R1.stars < temp2.stars)
 
 
+Q7. For each movie that has at least one rating, find the highest number of stars that movie received. Return the movie title and number of stars. Sort by movie title. 
+
+SELECT Movie.title, mStars
+FROM Movie
+NATURAL JOIN (
+	SELECT mID, MAX(stars) AS mStars
+	FROM Rating
+	GROUP BY mID)
+ORDER BY title 
+
+
+Q8. For each movie, return the title and the 'rating spread', that is, the difference between highest and lowest ratings given to that movie. Sort by rating spread from highest to lowest, then by movie title. 
+
+SELECT Movie.title, ratingSpread
+FROM Movie
+NATURAL JOIN (
+	SELECT mID, MAX(stars) - MIN(stars) AS ratingSpread
+	FROM Rating
+	GROUP BY mID)
+ORDER BY ratingSpread DESC, title
+
+
+Q9. Find the difference between the average rating of movies released before 1980 and the average rating of movies released after 1980. 
+(Make sure to calculate the average rating for each movie, then the average of those averages for movies before 1980 and movies after. Don't just calculate the overall average rating before and after 1980.)
 
 
 
