@@ -72,7 +72,7 @@ NATURAL JOIN (
 ORDER BY avgStars DESC, title ASC
 
 
-Q8. Find the names of all reviewers who have contributed three or more ratings. (As an extra challenge, try writing the query without HAVING or without COUNT.)
+Q8. Find the names of all reviewers who have contributed three or more ratings.
 
 SELECT name
 FROM Reviewer
@@ -99,4 +99,29 @@ WHERE (
     SELECT COUNT(*) 
     FROM Rating 
     WHERE Rating.rId = Reviewer.rId) >= 3;
-  
+
+
+Q9. Some directors directed more than one movie. For all such directors, return the titles of all movies directed by them, along with the director name. Sort by director name, then movie title.
+	
+SELECT title, director
+FROM Movie
+NATURAL JOIN (
+    SELECT director
+    FROM Movie
+    GROUP BY director
+    HAVING COUNT(*) >= 2) temp
+WHERE temp.director = director;
+
+
+Q10. Find the movie(s) with the highest average rating. Return the movie title(s) and average rating. (Hint: This query is more difficult to write in SQLite than other systems; 
+you might think of it as finding the highest average rating and then choosing the movie(s) with that average rating.) 	
+
+SELECT title, avg(Stars) AS avgStars
+FROM Rating NATURAL JOIN Movie
+GROUP BY mID
+HAVING avgStars = ( 	
+	SELECT MAX(avgStars)
+    FROM (
+        SELECT mID, avg(Stars) AS avgStars
+        FROM Rating
+        GROUP BY mID))
