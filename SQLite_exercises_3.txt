@@ -1,0 +1,10 @@
+Q1. Find the names of all students who are friends with someone named Gabriel. 
+
+SELECT name
+FROM Highschooler H1
+INNER JOIN (
+    SELECT ID2
+    FROM Friend INNER JOIN Highschooler
+    ON ID1 = ID
+    WHERE name = "Gabriel") temp
+ON H1.ID = temp.ID2
