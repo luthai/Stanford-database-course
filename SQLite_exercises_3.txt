@@ -23,3 +23,24 @@ AND H1.grade > temp.grade + 1
 
 
 Q3. For every pair of students who both like each other, return the name and grade of both students. Include each pair only once, with the two names in alphabetical order. 
+
+SELECT *
+FROM Highschooler H1
+NATURAL JOIN (
+	SELECT *
+	FROM Likes L1
+	Where L1.ID1 < L1.ID2
+	AND EXISTS (
+		SELECT * 
+		FROM Likes L2
+		WHERE L1.ID1 = L2.ID2
+		AND L2.ID1 = L1.ID2)) temp
+WHERE H1.ID = temp.ID1
+
+
+select t1.c1, t1.c2
+from tablename t1
+join tablename t2
+    on  t1.c1 = t2.c2
+    and t1.c2 = t2.c1
+where t1.c1 < t1.c2
