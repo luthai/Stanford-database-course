@@ -34,3 +34,17 @@ FROM Highschooler, (
 	AND F1.ID2 = H2.ID
 	AND H1.grade = H2.grade) AS temp
 WHERE ID = temp.ID1
+
+
+Q3. What is the average number of friends per student? (Your result should be just one number.) 
+
+SELECT AVG(temp.friends)
+FROM (
+    SELECT *, COUNT(*) AS friends
+    FROM Friend F1
+    GROUP By ID1) AS temp
+	
+	
+Q4. Find the number of students who are either friends with Cassandra or are friends of friends of Cassandra. Do not count Cassandra, even though technically she is a friend of a friend. 
+
+  	
