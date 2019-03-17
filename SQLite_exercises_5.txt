@@ -1,0 +1,33 @@
+Q1. Add the reviewer Roger Ebert to your database, with an rID of 209. 
+
+INSERT INTO Reviewer (
+    rID, name)
+VALUES
+    (209, "Roger Ebert");
+	
+
+Q2. Insert 5-star ratings by James Cameron for all movies in the database. Leave the review date as NULL. 
+
+INSERT INTO Rating (rID, mID, stars, ratingDate)
+SELECT Reviewer.rID, Movie.mID, 5, null 
+FROM Movie
+LEFT OUTER JOIN Reviewer
+WHERE Reviewer.name = "James Cameron"
+
+
+Q3. For all movies that have an average rating of 4 stars or higher, add 25 to the release year. (Update the existing tuples; don't insert new tuples.) 
+
+
+UPDATE Movie
+SET year = year + 25
+WHERE mID in (
+    SELECT mID
+    FROM Movie
+    NATURAL JOIN
+        (SELECT *, AVG(stars) AS avgstars
+        FROM Rating
+        GROUP BY mID) AS temp
+    WHERE temp.avgstars >= 4)
+	
+
+Q4. 
