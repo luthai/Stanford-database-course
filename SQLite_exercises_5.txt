@@ -30,4 +30,12 @@ WHERE mID in (
     WHERE temp.avgstars >= 4)
 	
 
-Q4. 
+Q4. Remove all ratings where the movie's year is before 1970 or after 2000, and the rating is fewer than 4 stars.
+
+DELETE
+FROM RATING
+WHERE mID IN (
+    SELECT mID
+    FROM Movie
+    WHERE year NOT BETWEEN 1970 AND 2000)
+AND stars < 4
